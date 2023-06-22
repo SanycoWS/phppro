@@ -100,6 +100,9 @@ class Square2 extends Shape
     }
 }
 
+
+
+
 $c = new Square('square', 4, 6);
 $cArea = ($c->calculateArea());
 $cName = ($c->getName());
