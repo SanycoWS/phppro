@@ -1,6 +1,6 @@
 <?php
 
-class Shape
+abstract class Shape
 {
     protected string $name;
     protected ?int $use;
@@ -21,10 +21,7 @@ class Shape
         return $this->name;
     }
 
-    public function calculateArea(): float
-    {
-        return 0;
-    }
+    abstract public function calculateArea(): float;
 
     public function getUse(): ?int
     {
@@ -98,20 +95,22 @@ class Square2 extends Shape
         protected string $name,
     ) {
     }
+
+    public function calculateArea(): float
+    {
+        return 0;
+    }
 }
 
+$c1 = new Square('square', 4, 6);
+$c2 = new Square('square', 4, 6);
 
-
-
-$c = new Square('square', 4, 6);
-$cArea = ($c->calculateArea());
-$cName = ($c->getName());
-
-$circle = new Circle('circle 111', 4);
-$cArea = ($circle->calculateArea());
-$c1Name = ($circle->getName());
-
-$c->setUse(5)->setColor(6)->getUse();
-var_dump($circle->getUse());
-$circle->incrementUse()->incrementUse(2)->incrementUse(3)->incrementUse();
-var_dump($circle->getUse());
+//
+//$circle = new Circle('circle 111', 4);
+//$cArea = ($circle->calculateArea());
+//$c1Name = ($circle->getName());
+//
+//$c->setUse(5)->setColor(6)->getUse();
+//var_dump($circle->getUse());
+//$circle->incrementUse()->incrementUse(2)->incrementUse(3)->incrementUse();
+//var_dump($circle->getUse());
