@@ -1,0 +1,9 @@
+### Send POST request with json body
+POST http://php-pro.loc/api/book
+Content-Type: application/json
+Accept: application/json
+
+{
+    "year": 152,
+    "name": "php pro"
+}
