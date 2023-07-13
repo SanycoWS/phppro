@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::post('/book', [BookController::class, 'store']);
+Route::apiResource('book', BookController::class);

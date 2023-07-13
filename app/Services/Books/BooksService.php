@@ -18,6 +18,23 @@ class BooksService
     {
         $bookId = $this->bookRepository->store($data);
 
-        return $this->bookRepository->getById($bookId);
+        $book = $this->bookRepository->getById($bookId);
+
+        return $book;
+    }
+
+    public function update()
+    {
+        $this->bookRepository->update();
+    }
+
+    public function delete(): void
+    {
+        $this->bookRepository->delete(1);
+    }
+
+    public function getAllData()
+    {
+        return $this->bookRepository->getAllData();
     }
 }
