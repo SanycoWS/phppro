@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\LangEnum;
 use App\Http\Requests\Book\BookStoreRequest;
 use App\Http\Resources\BookResource;
-use App\Http\Resources\PhotoResource;
 use App\Repositories\Books\BookStoreDTO;
 use App\Services\Books\BooksService;
 use Illuminate\Http\Request;
@@ -22,18 +22,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        return PhotoResource::collection([
-            (object)[
-                'name' => 'test2',
-                'size' => '13343',
-                'status' => '13343',
-            ],
-            (object)[
-                'name' => 'test2',
-                'size' => '13343',
-                'status' => '13343',
-            ]
-        ]);
+        return BookResource::collection($this->booksService->getAllData());
     }
 
     /**
@@ -46,6 +35,7 @@ class BookController extends Controller
         $dto = new BookStoreDTO(
             $validatedData['name'],
             $validatedData['year'],
+            LangEnum::from($validatedData['lang']),
             now()
         );
         $bookIterator = $this->booksService->store($dto);
@@ -66,7 +56,6 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
     }
 
     /**
