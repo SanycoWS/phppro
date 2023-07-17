@@ -42,7 +42,7 @@ class ExampleRepository
 
     public function test(Faker $faker)
     {
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 2; $i < 10; $i++) {
             $faker->name();
         }
     }
