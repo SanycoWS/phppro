@@ -19,7 +19,7 @@ class BookRepository
             ]);
     }
 
-    public function update(BookStoreDTO $data)
+    public function update(BookUpdateDTO $data)
     {
     }
 
@@ -32,6 +32,7 @@ class BookRepository
 
     public function getAllData()
     {
+        $lastId = 20000000;
         $result = DB::table('books')
             ->select([
                 'books.id',
@@ -42,6 +43,9 @@ class BookRepository
                 'categories.name as category_name',
             ])
             ->join('categories', 'categories.id', '=', 'books.category_id')
+            ->orderBy('books.id')
+            ->limit(2)
+            ->where('books.id', '>', $lastId)
             ->get();
 
         return $result->map(function ($item) {
