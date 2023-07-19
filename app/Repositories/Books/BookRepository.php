@@ -3,6 +3,7 @@
 namespace App\Repositories\Books;
 
 use App\Repositories\Books\Iterators\BookIterator;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class BookRepository
@@ -30,9 +31,8 @@ class BookRepository
             ->delete();
     }
 
-    public function getAllData()
+    public function getAllData(int $lastId = 0): Collection
     {
-        $lastId = 20000000;
         $result = DB::table('books')
             ->select([
                 'books.id',

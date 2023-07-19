@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Enum\LangEnum;
+use App\Http\Requests\Book\BookIndexRequest;
 use App\Http\Requests\Book\BookStoreRequest;
 use App\Http\Resources\BookResource;
 use App\Repositories\Books\BookStoreDTO;
+use App\Repositories\Books\Iterators\BookIterator;
 use App\Services\Books\BooksService;
 use Illuminate\Http\Request;
 
@@ -20,9 +22,17 @@ class BookController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        return BookResource::collection($this->booksService->getAllData());
+    public function index(
+        BookIndexRequest $request
+    ) {
+        $data = $this->booksService->getAllData($request->get('lastId'));
+        /** @var BookIterator $lastElement */
+        $lastElement = $data->last();
+
+        return BookResource::collection($data)
+            ->additional([
+                'lastId' => $lastElement->getId()
+            ]);
     }
 
     /**

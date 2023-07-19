@@ -11,7 +11,8 @@ class ExampleRepository
 
     public function laravelChunkById()
     {
-        DB::table('users')->where('active', false)
+        DB::table('users')
+            ->where('active', false)
             ->chunkById(100, function (Collection $users) {
                 foreach ($users as $user) {
                     DB::table('users')
@@ -19,6 +20,7 @@ class ExampleRepository
                         ->update(['active' => true]);
                 }
             });
+        //
     }
 
     public function customChunkById()
@@ -28,16 +30,16 @@ class ExampleRepository
         while ($hasResult) {
             $users = DB::table('users')
                 ->where('active', false)
-                ->limit(100)
                 ->where('id', '>', $lastId)
+                ->limit(100)
                 ->get();
-            foreach ($users as $user) {
-                $lastId = $user->id;
-            }
+
+            $lastId = $users->last()->id;
             if ($users->count() === 0) {
                 $hasResult = false;
             }
         }
+        //
     }
 
     public function test(Faker $faker)

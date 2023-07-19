@@ -1,0 +1,8 @@
+### Send POST request with json body
+GET http://php-pro.loc/api/book
+Content-Type: application/json
+Accept: application/json
+
+{
+    "lastId": 23
+}
