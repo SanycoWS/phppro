@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\Users\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,4 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::apiResource('book', BookController::class);
+Route::middleware(["auth:api"])->group(
+    function () {
+        Route::apiResource('book', BookController::class);
+    }
+);
+Route::post('login', [UserController::class, 'login']);

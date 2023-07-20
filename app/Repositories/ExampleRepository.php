@@ -12,9 +12,14 @@ class ExampleRepository
     public function laravelChunkById()
     {
         DB::table('users')
+            ->select([
+                'id',
+                'email'
+            ])
             ->where('active', false)
-            ->chunkById(100, function (Collection $users) {
-                foreach ($users as $user) {
+            ->chunkById(100, function (Collection $collection) {
+                $collection->last();
+                foreach ($collection as $user) {
                     DB::table('users')
                         ->where('id', $user->id)
                         ->update(['active' => true]);
@@ -29,6 +34,10 @@ class ExampleRepository
         $hasResult = true;
         while ($hasResult) {
             $users = DB::table('users')
+                ->select([
+                    'id',
+                    'email'
+                ])
                 ->where('active', false)
                 ->where('id', '>', $lastId)
                 ->limit(100)
