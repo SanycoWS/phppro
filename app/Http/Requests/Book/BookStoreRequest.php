@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\Book;
 
-use App\Enum\LangEnum;
+use App\Enums\Lang;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -18,7 +18,7 @@ class BookStoreRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            'year' => ['required', 'integer', 'max:255', Rule::enum(LangEnum::class)],
+            'year' => ['required', 'integer', 'max:255', Rule::enum(Lang::class)],
         ];
     }
 

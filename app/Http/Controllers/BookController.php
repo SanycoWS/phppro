@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enum\LangEnum;
+use App\Enums\Lang;
 use App\Http\Requests\Book\BookIndexRequest;
 use App\Http\Requests\Book\BookStoreRequest;
 use App\Http\Resources\BookResource;
@@ -45,7 +45,7 @@ class BookController extends Controller
         $dto = new BookStoreDTO(
             $validatedData['name'],
             $validatedData['year'],
-            LangEnum::from($validatedData['lang']),
+            Lang::from($validatedData['lang']),
             now()
         );
         $bookIterator = $this->booksService->store($dto);

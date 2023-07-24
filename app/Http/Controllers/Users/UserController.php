@@ -14,20 +14,13 @@ class UserController extends Controller
     {
         $data = $request->validated();
 
-        if (auth()->attempt($data) === false) {
+        $user = $userLoginService->login($data);
+        if (is_null($user) === true) {
             return 'email or password incorrect';
         }
+        $token = $userLoginService->getToken();
 
-        $token = auth()
-            ->user()
-            ->createToken(config('app.name'));
-
-        $userResource = new UserResource(
-            $userLoginService->getById(
-                auth()
-                    ->user()->id
-            )
-        );
+        $userResource = new UserResource($user);
 
         return $userResource->additional([
             'Bearer' => $token,

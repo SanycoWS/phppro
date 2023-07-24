@@ -25,6 +25,8 @@ class ProblemCode extends Command
      */
     public function handle()
     {
-        $book_id = $repository->store($storeData);
+        $this->call('command1');
+        $this->call('command2');
+        $this->call('command3');
     }
 }

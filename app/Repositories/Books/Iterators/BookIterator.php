@@ -10,6 +10,7 @@ class BookIterator
     protected int $id;
     protected string $name;
     protected int $year;
+    protected int $pages;
     protected CategoryIterator $category;
     protected Carbon $createdAt;
 
@@ -18,11 +19,20 @@ class BookIterator
         $this->id = $data->id;
         $this->name = $data->name;
         $this->year = $data->year;
+        $this->pages = $data->pages;
         $this->createdAt = new Carbon($data->created_at);
         $this->category = new CategoryIterator(
             $data->category_id,
             $data->category_name,
         );
+    }
+
+    /**
+     * @return int
+     */
+    public function getPages(): int
+    {
+        return $this->pages;
     }
 
     /**
