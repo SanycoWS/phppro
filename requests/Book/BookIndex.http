@@ -2,7 +2,7 @@
 GET http://php-pro.loc/api/book
 Content-Type: application/json
 Accept: application/json
-Authorization: Bearer suhdasj432fsd435
+Cookie: XDEBUG_SESSION=PHPSTORM
 
 {
     "lastId": 23

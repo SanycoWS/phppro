@@ -1,6 +1,7 @@
 POST http://php-pro.loc/api/login
 Content-Type: application/json
 Accept: application/json
+Cookie: XDEBUG_SESSION=PHPSTORM
 
 {
     "email": "admin@admin.com",

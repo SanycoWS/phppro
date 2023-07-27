@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::apiResource('book', BookController::class);
 Route::middleware(["auth:api"])->group(
     function () {
-        Route::apiResource('book', BookController::class);
     }
 );
 Route::post('login', [UserController::class, 'login']);

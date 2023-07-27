@@ -19,7 +19,7 @@ class BookIterator
         $this->id = $data->id;
         $this->name = $data->name;
         $this->year = $data->year;
-        $this->pages = $data->pages;
+        $this->pages = $data->pages ?? 0;
         $this->createdAt = new Carbon($data->created_at);
         $this->category = new CategoryIterator(
             $data->category_id,
