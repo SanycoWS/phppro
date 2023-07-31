@@ -22,7 +22,7 @@ class UserController extends Controller
 
         $loginDTO = new LoginDTO(...$data);
         $user = $this->loginService->handle($loginDTO);
-        $userResource = new UserResource($user);
+        $userResource = new UserResource($user->getUser());
 
         $token = $user->getToken();
 
