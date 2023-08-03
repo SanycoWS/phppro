@@ -29,7 +29,10 @@ class PaymentController extends Controller
         $orderId = $paymentService->cratePayment($makePaymentDTO);
 
         return response()->json([
-            'order' => ['id' => $orderId],
+            'order' => [
+                'id' => $orderId,
+                'sig' => '' // ToDo for liqpay
+            ],
         ]);
     }
 
