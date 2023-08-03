@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\Payments\Paypal;
+namespace App\Services\Payments\Factory\Paypal;
 
 use App\Enums\Currency;
-use App\Services\Payments\DTO\MakePaymentDTO;
-use App\Services\Payments\PaymentsInterface;
+use App\Services\Payments\Factory\DTO\MakePaymentDTO;
+use App\Services\Payments\Factory\PaymentsInterface;
 use Srmklive\PayPal\Services\PayPal as PayPalClient;
 
 class PaypalService implements PaymentsInterface
@@ -14,16 +14,29 @@ class PaypalService implements PaymentsInterface
     ) {
     }
 
-    public function makePayment(MakePaymentDTO $paymentDTO): bool
+    public function validatePayment(string $paymentId): bool
+    {
+        $this->payPalClient->setApiCredentials(config('paypal'));
+        $paypalToken = $this->payPalClient->getAccessToken();
+        $response = $this->payPalClient->capturePaymentOrder($paymentId);
+
+        return $response['status'] === 'COMPLETED';
+    }
+
+    private function getCurrency(Currency $currency): string
+    {
+        return match ($currency) {
+            Currency::USD => 'USD',
+            Currency::EUR => 'EUR',
+        };
+    }
+
+    public function cratePayment(MakePaymentDTO $paymentDTO): string
     {
         $this->payPalClient->setApiCredentials(config('paypal'));
         $paypalToken = $this->payPalClient->getAccessToken();
         $response = $this->payPalClient->createOrder([
             "intent" => "CAPTURE",
-            "application_context" => [
-                "return_url" => route('success.payment'),
-                "cancel_url" => route('cancel.payment'),
-            ],
             "purchase_units" => [
                 0 => [
                     "amount" => [
@@ -35,17 +48,9 @@ class PaypalService implements PaymentsInterface
         ]);
 
         if (isset($response['id']) && $response['id'] != null) {
-            return true;
+            return $response['id'];
         }
 
-        return false;
-    }
-
-    private function getCurrency(Currency $currency): string
-    {
-        return match ($currency) {
-            Currency::USD => 'USD',
-            Currency::EUR => 'EUR',
-        };
+        return '';
     }
 }

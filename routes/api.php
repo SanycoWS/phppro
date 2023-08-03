@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\Users\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('book', BookController::class);
 Route::middleware(["auth:api"])->group(
     function () {
+        Route::get('payment/makePayment/{system}', [PaymentController::class, 'createPayment']);
+        Route::get('payment/confirm/{system}', [PaymentController::class, 'confirmPayment']);
     }
 );
 Route::post('login', [UserController::class, 'login']);

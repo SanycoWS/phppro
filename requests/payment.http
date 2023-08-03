@@ -1,0 +1,19 @@
+GET http://php-pro.loc/api/payment/makePayment
+Content-Type: application/json
+Accept: application/json
+Cookie: XDEBUG_SESSION=PHPSTORM
+
+{
+    "paymentSystem": 1
+}
+
+
+#######
+GET http://php-pro.loc/api/payment/confirm/1
+Content-Type: application/json
+Accept: application/json
+Cookie: XDEBUG_SESSION=PHPSTORM
+
+{
+    "paymentId": "1UJ172010A9080707"
+}

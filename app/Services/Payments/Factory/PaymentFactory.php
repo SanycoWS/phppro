@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services\Payments;
+namespace App\Services\Payments\Factory;
 
 use App\Enums\Payments;
-use App\Services\Payments\Liqpay\LiqpayService;
-use App\Services\Payments\Paypal\PaypalService;
-use App\Services\Payments\Stripe\StripeService;
+use App\Services\Payments\Factory\Liqpay\LiqpayService;
+use App\Services\Payments\Factory\Paypal\PaypalService;
+use App\Services\Payments\Factory\Stripe\StripeService;
 
 class PaymentFactory
 {

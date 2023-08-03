@@ -2,11 +2,9 @@
 
 namespace App\Http\Requests\Payment;
 
-use App\Enums\Payments;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class PaymentMakeRequest extends FormRequest
+class PaymentConfirmRequest extends FormRequest
 {
 
     /**
@@ -17,7 +15,7 @@ class PaymentMakeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'paymentSystem' => ['required', Rule::enum(Payments::class)],
+            'paymentId' => ['required', 'string', 'min:1', 'max:999', 'unique:order_payment_result,payment_id'],
         ];
     }
 

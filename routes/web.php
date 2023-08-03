@@ -19,3 +19,6 @@ Route::get('/payment_stripe', function () {
 Route::get('/payment_paypal', function () {
     return view('payment_paypal');
 });
+Route::get('/payment_liqpay', function () {
+    return view('payment_liqpay');
+});

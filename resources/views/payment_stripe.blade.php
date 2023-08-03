@@ -35,7 +35,7 @@
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                paySystem: 2,
+                paymentSystem: 2,
             }),
         })
             .then(function (response) {

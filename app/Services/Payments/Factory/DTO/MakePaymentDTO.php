@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Payments\DTO;
+namespace App\Services\Payments\Factory\DTO;
 
 use App\Enums\Currency;
 

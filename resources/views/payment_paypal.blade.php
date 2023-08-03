@@ -15,20 +15,18 @@
     function payWithPaypal() {
         paypal.Buttons({
             createOrder() {
-                return fetch("/api/payment/makePayment", {
+                return fetch("/api/payment/makePayment/1", {
                     method: "GET",
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify({
-                        paySystem: 1,
-                    }),
                 })
                     .then(function (response) {
                         return response.json()
                     })
-                    .then(function (order) {
-                        return order.id
+                    .then(function (data) {
+                        console.log(data.order.id)
+                        return data.order.id
                     });
             },
             onApprove: function (data, actions) {
