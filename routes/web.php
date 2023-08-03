@@ -1,8 +1,5 @@
 <?php
 
-use App\Http\Controllers\Test2Controller;
-use App\Http\Controllers\Test3Controller;
-use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/test', [TestController::class, 'index']);
-Route::get('/test2', [Test2Controller::class, 'newIndex']);
-Route::get('/test3', Test3Controller::class);
+Route::get('/payment_stripe', function () {
+    return view('payment_stripe');
+});
+Route::get('/payment_paypal', function () {
+    return view('payment_paypal');
+});
