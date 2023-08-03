@@ -40,8 +40,9 @@ class PaymentController extends Controller
         int $system
     ) {
         $data = $request->validated();
-        $confirmPaymentService->handle(Payments::from($system), $data['paymentId']);
+        $result = $confirmPaymentService->handle(Payments::from($system), $data['paymentId']);
 
+        return $result->isPaymentSuccess();
         // save to DB to table order_payment_result result
 
         // add to user plan

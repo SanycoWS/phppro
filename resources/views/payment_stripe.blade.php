@@ -29,20 +29,17 @@
         // initialize the instance of Elements below. The PaymentIntent settings configure which payment
         // method types to display in the PaymentElement.
 
-        const clientSecret = fetch("/api/payment/makePayment", {
+        const clientSecret = fetch("/api/payment/makePayment/2", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-                paymentSystem: 2,
-            }),
         })
             .then(function (response) {
                 return response.json()
             })
-            .then(function (order) {
-                return order.id
+            .then(function (data) {
+                return data.order.id
             });
 
         // Initialize Stripe Elements with the PaymentIntent's clientSecret,
@@ -89,15 +86,22 @@
             const {error: stripeError} = await stripe.confirmPayment({
                 elements,
                 confirmParams: {
-                    return_url: `${window.location.origin}/return.html`,
+                    return_url: `${window.location.origin}/payment_stripe`,
                 }
             });
-            /**
-             *   const url = new URL(window.location);
-             const clientSecret = url.searchParams.get('payment_intent_client_secret');
-             send clientSecret to confirm payment
-             stripe->paymentIntents->retrieve(clientSecret);
-             */
+
+            const url = new URL(window.location);
+            const clientSecret = url.searchParams.get('payment_intent_client_secret');
+            if (clientSecret.length > 0) {
+                axios.post('/api/payment/confirm/2', {paymentId: clientSecret})
+                    .then(function (response) {
+                        alert(response)
+                    })
+                    .catch(function (error) {
+                        console.error('Помилка при виконанні оплати через Stripe на бекенді: ', error);
+                    });
+            }
+
 
             if (stripeError) {
                 alert(stripeError.message);

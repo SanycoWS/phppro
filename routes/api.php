@@ -19,8 +19,8 @@ use Illuminate\Support\Facades\Route;
 Route::apiResource('book', BookController::class);
 Route::middleware(["auth:api"])->group(
     function () {
-        Route::get('payment/makePayment/{system}', [PaymentController::class, 'createPayment']);
-        Route::get('payment/confirm/{system}', [PaymentController::class, 'confirmPayment']);
     }
 );
 Route::post('login', [UserController::class, 'login']);
+Route::get('payment/makePayment/{system}', [PaymentController::class, 'createPayment']);
+Route::post('payment/confirm/{system}', [PaymentController::class, 'confirmPayment']);

@@ -19,10 +19,11 @@ class ConfirmPaymentService
     ) {
     }
 
-    public function handle(Payments $payments, string $paymentId)
+    public function handle(Payments $payments, string $paymentId): ConfirmPaymentDTO
     {
         $dto = new ConfirmPaymentDTO($payments, $paymentId);
-        $result = $this->pipeline
+
+        return $this->pipeline
             ->send($dto)
             ->through(self::HANDLERS)
             ->then(function (ConfirmPaymentDTO $DTO) {

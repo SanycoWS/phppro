@@ -36,7 +36,7 @@
     }
 
     function executePaypalPaymentOnBackend(paypalToken) {
-        axios.post('/api/payment/confirm', {paypalToken})
+        axios.post('/api/payment/confirm/1', {paymentId: paypalToken})
             .then(function (response) {
                 alert(response)
             })

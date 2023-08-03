@@ -1,11 +1,21 @@
 <div id="liqpay_checkout"></div>
 <script>
     window.LiqPayCheckoutCallback = function () {
+        const data = fetch("/api/payment/makePayment/3", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then(function (response) {
+                return response.json()
+            })
+            .then(function (data) {
+                return data.order
+            })
         LiqPayCheckout.init({
-            data: "eyAidmVyc2lvbiIgOiAzLCAicHVibGljX2tleSIgOiAieW91cl9wdWJsaWNfa2V5IiwgImFjdGlv" +
-                "biIgOiAicGF5IiwgImFtb3VudCIgOiAxLCAiY3VycmVuY3kiIDogIlVTRCIsICJkZXNjcmlwdGlv" +
-                "biIgOiAiZGVzY3JpcHRpb24gdGV4dCIsICJvcmRlcl9pZCIgOiAib3JkZXJfaWRfMSIgfQ==",
-            signature: "QvJD5u9Fg55PCx/Hdz6lzWtYwcI=",
+            data: data.id,
+            signature: data.sig,
             embedTo: "#liqpay_checkout",
             language: "en",
             mode: "embed" // embed || popup
