@@ -9,7 +9,7 @@ Cookie: XDEBUG_SESSION=PHPSTORM
 
 
 #######
-GET http://php-pro.loc/api/payment/confirm/1
+POST http://php-pro.loc/api/payment/confirm/1
 Content-Type: application/json
 Accept: application/json
 Cookie: XDEBUG_SESSION=PHPSTORM

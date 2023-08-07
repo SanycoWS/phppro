@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Enums\Lang;
 use App\Http\Requests\Book\BookIndexRequest;
 use App\Http\Requests\Book\BookStoreRequest;
+use App\Http\Resources\BookModelResource;
 use App\Http\Resources\BookResource;
+use App\Models\Book;
 use App\Repositories\Books\BookStoreDTO;
 use App\Repositories\Books\Iterators\BookIterator;
 use App\Services\Books\BooksService;
@@ -33,6 +35,27 @@ class BookController extends Controller
             ->additional([
                 'lastId' => $lastElement->getId()
             ]);
+    }
+
+    public function indexModel(
+        BookIndexRequest $request
+    ) {
+        $data = $this->booksService->getAllDataModel($request->get('lastId'));
+        /** @var Book $lastElement */
+        $lastElement = $data->last();
+
+        return BookModelResource::collection($data)
+            ->additional([
+                'lastId' => $lastElement->id
+            ]);
+    }
+
+    public function indexIterator(
+        BookIndexRequest $request
+    ) {
+        $data = $this->booksService->getAllDataIterator($request->get('lastId'));
+
+        return BookResource::collection($data->getIterator()->getArrayCopy());
     }
 
     /**

@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('bookIterator', [BookController::class, 'indexIterator']);
+Route::get('bookModel', [BookController::class, 'indexModel']);
 Route::apiResource('book', BookController::class);
 Route::middleware(["auth:api"])->group(
     function () {

@@ -5,5 +5,29 @@ Accept: application/json
 Cookie: XDEBUG_SESSION=PHPSTORM
 
 {
-    "lastId": 23
+    "lastId": 1
 }
+
+
+
+### Send POST request with json body
+GET http://php-pro.loc/api/bookIterator
+Content-Type: application/json
+Accept: application/json
+Cookie: XDEBUG_SESSION=PHPSTORM
+
+{
+    "lastId": 1
+}
+
+
+### Send POST request with json body
+GET http://php-pro.loc/api/bookModel
+Content-Type: application/json
+Accept: application/json
+Cookie: XDEBUG_SESSION=PHPSTORM
+
+{
+    "lastId": 1
+}
+

@@ -5,6 +5,7 @@ namespace App\Services\Books;
 use App\Repositories\Books\BookRepository;
 use App\Repositories\Books\BookStoreDTO;
 use App\Repositories\Books\Iterators\BookIterator;
+use App\Repositories\Books\Iterators\BooksIterator;
 use Illuminate\Support\Collection;
 
 class BooksService
@@ -34,8 +35,22 @@ class BooksService
         $this->bookRepository->delete(1);
     }
 
+    public function getAllDataIterator(int $lastId): BooksIterator
+    {
+        return $this->bookRepository->getAllDataIterator($lastId);
+    }
+
     public function getAllData(int $lastId): Collection
     {
-        return $this->bookRepository->getAllData($lastId);
+        $data = $this->bookRepository->getAllData($lastId);
+
+        return $data;
+    }
+
+    public function getAllDataModel(int $lastId): Collection
+    {
+        $data = $this->bookRepository->getAllDataModel($lastId);
+
+        return $data;
     }
 }
