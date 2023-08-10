@@ -24,48 +24,20 @@
         const stripe = Stripe(publishableKey, {
             apiVersion: '2020-08-27',
         });
-
-        // On page load, we create a PaymentIntent on the server so that we have its clientSecret to
-        // initialize the instance of Elements below. The PaymentIntent settings configure which payment
-        // method types to display in the PaymentElement.
-
-        const clientSecret = fetch("/api/payment/makePayment/2", {
+        const data = await fetch("/api/payment/makePayment/2", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",
             },
-        })
-            .then(function (response) {
-                return response.json()
-            })
-            .then(function (data) {
-                return data.order.id
-            });
-
-        // Initialize Stripe Elements with the PaymentIntent's clientSecret,
-        // then mount the payment element.
-        const elements = stripe.elements({clientSecret});
+        });
+        const json = await data.json();
+        const orderId = json.order.id;
+        const elements = stripe.elements({clientSecret: orderId});
         const paymentElement = elements.create('payment');
         paymentElement.mount('#payment-element');
         // Create and mount the linkAuthentication Element to enable autofilling customer payment details
         const linkAuthenticationElement = elements.create("linkAuthentication");
         linkAuthenticationElement.mount("#link-authentication-element");
-        // If the customer's email is known when the page is loaded, you can
-        // pass the email to the linkAuthenticationElement on mount:
-        //
-        //   linkAuthenticationElement.mount("#link-authentication-element",  {
-        //     defaultValues: {
-        //       email: 'jenny.rosen@example.com',
-        //     }
-        //   })
-        // If you need access to the email address entered:
-        //
-        //  linkAuthenticationElement.on('change', (event) => {
-        //    const email = event.value.email;
-        //    console.log({ email });
-        //  })
-
-        // When the form is submitted...
         const form = document.getElementById('payment-form');
         let submitted = false;
         form.addEventListener('submit', async (e) => {
@@ -89,29 +61,41 @@
                     return_url: `${window.location.origin}/payment_stripe`,
                 }
             });
-
-            const url = new URL(window.location);
-            const clientSecret = url.searchParams.get('payment_intent_client_secret');
-            if (clientSecret.length > 0) {
-                axios.post('/api/payment/confirm/2', {paymentId: clientSecret})
-                    .then(function (response) {
-                        alert(response)
-                    })
-                    .catch(function (error) {
-                        console.error('Помилка при виконанні оплати через Stripe на бекенді: ', error);
-                    });
-            }
-
-
-            if (stripeError) {
-                alert(stripeError.message);
-
-                // reenable the form.
-                submitted = false;
-                form.querySelector('button').disabled = false;
-                return;
-            }
         });
+
+        const url = new URL(window.location);
+        const redirectResult = url.searchParams.get('payment_intent_client_secret');
+
+        if (redirectResult) {
+
+            fetch("/api/payment/confirm/2", {
+                method: "POST",
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({paymentId: redirectResult})
+            }).then(function (response) {
+                alert(response)
+            })
+                .catch(function (error) {
+                    console.error('Помилка при виконанні оплати через Stripe на бекенді: ', error);
+                });
+        }
+
+
+        if (stripeError) {
+            alert(stripeError.message);
+
+            // reenable the form.
+            submitted = false;
+            form.querySelector('button').disabled = false;
+            return;
+        }
+
+        // Initialize Stripe Elements with the PaymentIntent's clientSecret,
+        // then mount the payment element.
+
     });
 </script>
 </body>
