@@ -42,17 +42,14 @@ class PaymentController extends Controller
         PaymentConfirmRequest $request,
         ConfirmPaymentService $confirmPaymentService,
         int $system
-    )
-    {
+    ) {
         $data = $request->validated();
-        $paymentService = $this->paymentFactory->getInstance(
-            Payments::from($system),
-            config('payments_api')
-        );
-        $result = $paymentService->getPaymentInfo($data['paymentId']);
-        //    $result = $confirmPaymentService->handle(Payments::from($system), $data['paymentId']);
 
-        return $result;
+        $result = $confirmPaymentService->handle(Payments::from($system), $data['paymentId']);
+
+        return response()->json([
+            'status' => $result->isPaymentSuccess(),
+        ]);
         // save to DB to table order_payment_result result
 
         // add to user plan

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fb20ff2e11bb2b9a63dfefbc9934d476",
+    "content-hash": "b2ea562db103307595d66029b4cbe69e",
     "packages": [
         {
             "name": "brick/math",
@@ -4054,6 +4054,39 @@
                 }
             ],
             "time": "2023-04-15T23:01:58+00:00"
+        },
+        {
+            "name": "sanycows/example-package",
+            "version": "0.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SanycoWS/example-package.git",
+                "reference": "7d2aca8b5c0632c41f9e0b663e160dac713e5a97"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SanycoWS/example-package/zipball/7d2aca8b5c0632c41f9e0b663e160dac713e5a97",
+                "reference": "7d2aca8b5c0632c41f9e0b663e160dac713e5a97",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Sanycows\\ExamplePackage\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "support": {
+                "issues": "https://github.com/SanycoWS/example-package/issues",
+                "source": "https://github.com/SanycoWS/example-package/tree/0.0.2"
+            },
+            "time": "2023-08-14T17:23:23+00:00"
         },
         {
             "name": "sanycows/payments-api",

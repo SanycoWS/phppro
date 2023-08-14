@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Books\Iterators;
 
+use App\Repositories\Authors\Iterators\AuthorsWithoutBooksIterator;
 use App\Repositories\Categories\Iterators\CategoryIterator;
 use Carbon\Carbon;
 
@@ -11,6 +12,7 @@ class BookIterator
     protected string $name;
     protected int $year;
     protected int $pages;
+    protected AuthorsWithoutBooksIterator $authors;
     protected CategoryIterator $category;
     protected Carbon $createdAt;
 
@@ -20,6 +22,7 @@ class BookIterator
         $this->name = $data->name;
         $this->year = $data->year;
         $this->pages = $data->pages ?? 0;
+        $this->authors = new AuthorsWithoutBooksIterator($data->authors);
         $this->createdAt = new Carbon($data->created_at);
         $this->category = new CategoryIterator(
             $data->category_id,

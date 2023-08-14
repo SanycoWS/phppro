@@ -17,10 +17,7 @@ class SavePaymentResultHandler implements ConfirmPaymentInterface
     public function handle(ConfirmPaymentDTO $confirmPaymentDTO, Closure $next): ConfirmPaymentDTO
     {
         // TODo $storeDTO = new PaymentResultStoreDTO
-        $this->paymentResultRepository->store(
-            $confirmPaymentDTO->getPaymentId(),
-            $confirmPaymentDTO->isPaymentSuccess()
-        );
+        $this->paymentResultRepository->store($confirmPaymentDTO->getPaymentInfo());
 
         return $next($confirmPaymentDTO);
     }

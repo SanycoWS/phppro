@@ -2,10 +2,10 @@
 
 namespace App\Services\Payments\ConfirmPayment;
 
-use App\Enums\Payments;
 use App\Services\Payments\ConfirmPayment\Hendlers\CheckPaymentResultHandler;
 use App\Services\Payments\ConfirmPayment\Hendlers\SavePaymentResultHandler;
 use Illuminate\Pipeline\Pipeline;
+use Sanycows\PaymentsApi\Enums\Payments;
 
 class ConfirmPaymentService
 {

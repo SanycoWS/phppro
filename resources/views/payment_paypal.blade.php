@@ -38,7 +38,7 @@
     function executePaypalPaymentOnBackend(paypalToken) {
         axios.post('/api/payment/confirm/1', {paymentId: paypalToken})
             .then(function (response) {
-                alert(response)
+                console.log(response)
             })
             .catch(function (error) {
                 console.error('Помилка при виконанні оплати через PayPal на бекенді: ', error);

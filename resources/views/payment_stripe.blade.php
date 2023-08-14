@@ -76,7 +76,7 @@
                 },
                 body: JSON.stringify({paymentId: redirectResult})
             }).then(function (response) {
-                alert(response)
+                console.log(response)
             })
                 .catch(function (error) {
                     console.error('Помилка при виконанні оплати через Stripe на бекенді: ', error);

@@ -35,7 +35,7 @@
                         },
                         body: JSON.stringify({paymentId: data.order_id})
                     }).then(function (response) {
-                        alert(response)
+                        console.log(response)
                     })
                         .catch(function (error) {
                             console.error('Помилка при виконанні оплати через Stripe на бекенді: ', error);
