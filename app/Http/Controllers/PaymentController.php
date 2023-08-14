@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Enums\Currency;
-use App\Enums\Payments;
 use App\Http\Requests\Payment\PaymentConfirmRequest;
 use App\Services\Payments\ConfirmPayment\ConfirmPaymentService;
-use App\Services\Payments\Factory\DTO\MakePaymentDTO;
-use App\Services\Payments\Factory\PaymentFactory;
+use Sanycows\PaymentsApi\Enums\Currency;
+use Sanycows\PaymentsApi\Enums\Payments;
+use Sanycows\PaymentsApi\Payments\DTO\MakePaymentDTO;
+use Sanycows\PaymentsApi\Payments\PaymentFactory;
 
 class PaymentController extends Controller
 {
@@ -20,7 +20,8 @@ class PaymentController extends Controller
     public function createPayment(int $system)
     {
         $paymentService = $this->paymentFactory->getInstance(
-            Payments::from($system)
+            Payments::from($system),
+            config('payments_api')
         );
         $makePaymentDTO = new MakePaymentDTO(
             15.25,
@@ -41,11 +42,17 @@ class PaymentController extends Controller
         PaymentConfirmRequest $request,
         ConfirmPaymentService $confirmPaymentService,
         int $system
-    ) {
+    )
+    {
         $data = $request->validated();
-        $result = $confirmPaymentService->handle(Payments::from($system), $data['paymentId']);
+        $paymentService = $this->paymentFactory->getInstance(
+            Payments::from($system),
+            config('payments_api')
+        );
+        $result = $paymentService->getPaymentInfo($data['paymentId']);
+        //    $result = $confirmPaymentService->handle(Payments::from($system), $data['paymentId']);
 
-        return $result->isPaymentSuccess();
+        return $result;
         // save to DB to table order_payment_result result
 
         // add to user plan

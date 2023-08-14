@@ -64,7 +64,7 @@
         });
 
         const url = new URL(window.location);
-        const redirectResult = url.searchParams.get('payment_intent_client_secret');
+        const redirectResult = url.searchParams.get('payment_intent');
 
         if (redirectResult) {
 
