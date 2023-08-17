@@ -14,20 +14,20 @@ class BooksIterator implements IteratorAggregate
     public function __construct(Collection $collection)
     {
         // ToDO make group by author_id
-        $data = [];
+//        $data = [];
+//        foreach ($collection as $item) {
+//            if (key_exists($item->id, $data) === false) {
+//                $data[$item->id] = $item;
+//                $data[$item->id]->authors = collect();
+//            }
+//            $data[$item->id]->authors->add(
+//                (object)[
+//                    'id' => $item->author_id,
+//                    'name' => $item->author_name,
+//                ]
+//            );
+//        }
         foreach ($collection as $item) {
-            if (key_exists($item->id, $data) === false) {
-                $data[$item->id] = $item;
-                $data[$item->id]->authors = collect();
-            }
-            $data[$item->id]->authors->add(
-                (object)[
-                    'id' => $item->author_id,
-                    'name' => $item->author_name,
-                ]
-            );
-        }
-        foreach ($data as $item) {
             $this->data[] = new BookIterator($item);
         }
     }

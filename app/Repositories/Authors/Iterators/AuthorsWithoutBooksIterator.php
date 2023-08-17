@@ -13,6 +13,9 @@ class AuthorsWithoutBooksIterator implements IteratorAggregate
 
     public function __construct(Collection $collection)
     {
+        foreach ($collection as $item) {
+            $this->data[] = new AuthorWithoutBooksIterator($item);
+        }
     }
 
     public function getIterator(): ArrayIterator

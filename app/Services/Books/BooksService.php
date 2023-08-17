@@ -7,6 +7,8 @@ use App\Repositories\Books\BookStoreDTO;
 use App\Repositories\Books\Iterators\BookIterator;
 use App\Repositories\Books\Iterators\BooksIterator;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
 
 class BooksService
 {
@@ -37,7 +39,19 @@ class BooksService
 
     public function getAllDataIterator(int $lastId): BooksIterator
     {
+        Redis::set('my_new_key_lastId', $lastId, 'EX', 60);
+        Redis::get('my_new_key_lastId');
+
         return $this->bookRepository->getAllDataIterator($lastId);
+    }
+
+    public function getAllDataIteratorNoCache(int $lastId): BooksIterator
+    {
+        $seconds = 60;
+
+        return Cache::remember('books_' . $lastId, $seconds, function () use ($lastId) {
+            return $this->bookRepository->getAllDataIteratorNoCache($lastId);
+        });
     }
 
     public function getAllData(int $lastId): Collection

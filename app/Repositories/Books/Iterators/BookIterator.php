@@ -22,12 +22,20 @@ class BookIterator
         $this->name = $data->name;
         $this->year = $data->year;
         $this->pages = $data->pages ?? 0;
-        $this->authors = new AuthorsWithoutBooksIterator($data->authors);
+        //$this->authors = new AuthorsWithoutBooksIterator($data->authors);
         $this->createdAt = new Carbon($data->created_at);
         $this->category = new CategoryIterator(
             $data->category_id,
             $data->category_name,
         );
+    }
+
+    /**
+     * @return AuthorsWithoutBooksIterator
+     */
+    public function getAuthors(): AuthorsWithoutBooksIterator
+    {
+        return $this->authors;
     }
 
     /**
