@@ -1,9 +1,10 @@
 ### Send POST request with json body
-POST http://php-pro.loc/api/book
+POST http://192.168.56.56:85/api/book
 Content-Type: application/json
 Accept: application/json
 
 {
-    "year": 152,
-    "name": "php pro"
+    "year": 210,
+    "name": "php pro",
+    "lang": "ua"
 }

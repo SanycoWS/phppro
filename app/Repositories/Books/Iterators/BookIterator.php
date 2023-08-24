@@ -25,8 +25,8 @@ class BookIterator
         //$this->authors = new AuthorsWithoutBooksIterator($data->authors);
         $this->createdAt = new Carbon($data->created_at);
         $this->category = new CategoryIterator(
-            $data->category_id,
-            $data->category_name,
+            $data->category_id ?? 1,
+            $data->category_name ?? 'cat name',
         );
     }
 

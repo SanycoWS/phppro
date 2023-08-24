@@ -2,10 +2,12 @@
 
 namespace App\Services\Books;
 
+use App\Events\BookCreated;
 use App\Repositories\Books\BookRepository;
 use App\Repositories\Books\BookStoreDTO;
 use App\Repositories\Books\Iterators\BookIterator;
 use App\Services\Messenger\MessengerInterface;
+use Illuminate\Support\Facades\Log;
 
 class BookStoreService
 {
@@ -22,11 +24,12 @@ class BookStoreService
         $name = mb_strtolower($name);
         $name = ucfirst($name);
         $data->setName($name);
-
+        Log::alert('handle');
         $bookId = $this->bookRepository->store($data);
         $this->messenger->send('book created');
         $book = $this->bookRepository->getById($bookId);
-
+        $userId = 5;
+        BookCreated::dispatch($book, $userId);
         return $book;
     }
 }

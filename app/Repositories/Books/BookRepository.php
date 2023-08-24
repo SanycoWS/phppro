@@ -20,7 +20,9 @@ class BookRepository
                 'name' => $data->getName(),
                 'year' => $data->getYear(),
                 'lang' => $data->getLang(),
+                'category_id' => 1,
                 'created_at' => $data->getCreatedAt(),
+                'date' => $data->getCreatedAt(),
             ]);
     }
 

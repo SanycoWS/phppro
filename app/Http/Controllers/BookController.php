@@ -11,6 +11,7 @@ use App\Models\Book;
 use App\Repositories\Books\BookStoreDTO;
 use App\Repositories\Books\Iterators\BookIterator;
 use App\Services\Books\BooksService;
+use App\Services\Books\BookStoreService;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -63,6 +64,7 @@ class BookController extends Controller
      */
     public function store(
         BookStoreRequest $request,
+        BookStoreService $bookStoreService
     ) {
         $validatedData = $request->validated();
         $dto = new BookStoreDTO(
@@ -71,7 +73,7 @@ class BookController extends Controller
             Lang::from($validatedData['lang']),
             now()
         );
-        $bookIterator = $this->booksService->store($dto);
+        $bookIterator = $bookStoreService->handle($dto);
 
         return new BookResource($bookIterator);
     }
