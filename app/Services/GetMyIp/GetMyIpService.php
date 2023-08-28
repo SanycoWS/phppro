@@ -2,30 +2,37 @@
 
 namespace App\Services\GetMyIp;
 
+use App\Services\Proxy\ProxiesStorage;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Redis;
 
 class GetMyIpService
 {
 
+    protected const MIN_EXECUTION_SECONDS = 1;
+
     public function __construct(
-        protected Client $client
+        protected Client $client,
+        protected ProxiesStorage $proxiesStorage,
     ) {
     }
 
     public function handle(): string
     {
-        $proxy = json_decode(Redis::lpop('proxies'), true);
+        $proxy = $this->proxiesStorage->lpop();
+        //  $proxy = json_decode(Redis::lpop('proxies'), true);
 
-        $userData = $proxy['username'] . ':' . $proxy['password'];
+        $start = microtime(true);
         $response = $this->client->get(
             'https://api.myip.com/',
             [
-                'proxy' => 'http://' . $userData . '@' . $proxy['ip'] . ':' . $proxy['port'],
+                'proxy' => $proxy->getData()
             ]
         );
-
-        Redis::rpush('proxies', json_encode($proxy));
+        $end = microtime(true);
+        if ($end - $start < self::MIN_EXECUTION_SECONDS) {
+            $this->proxiesStorage->rpush($proxy);
+            // Redis::rpush('proxies', json_encode($proxy));
+        }
 
         return $response->getBody()->getContents();
     }

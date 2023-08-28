@@ -3,13 +3,13 @@
 namespace App\Services\Proxy;
 
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Redis;
 
 class WebShareService
 {
 
     public function __construct(
-        protected Client $client
+        protected Client $client,
+        protected ProxiesStorage $proxiesStorage,
     ) {
     }
 
@@ -35,7 +35,8 @@ class WebShareService
                 'ip' => $result->proxy_address,
                 'port' => $result->port,
             ];
-            Redis::lpush('proxies', json_encode($proxy));
+            $this->proxiesStorage->lpush(new ProxyDTO(...$proxy));
+            //   Redis::lpush('proxies', json_encode($proxy));
             $proxies[] = $proxy;
         }
         print_r($proxies);

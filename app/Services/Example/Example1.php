@@ -1,3 +1,5 @@
+<?php
+
 class CategoryCreatedListener
 {
     /**
@@ -15,6 +17,7 @@ class CategoryCreatedListener
     {
         $keys = [
             $event->getUserId() . "_" . "user" => Redis::get($event->getUserId() . "_" . "user"),
+            $event->getUserId() . "_" . "user2" => Redis::get($event->getUserId() . "_" . "user2"),
             $event->getUserId() . "_" . $event->getRoute() => Redis::get(
                 $event->getUserId() . "_" . $event->getRoute()
             ),
@@ -32,6 +35,9 @@ class CategoryCreatedListener
             }
             if ($key === $event->getUserId() . "_" . $event->getRoute() && $value > 10) {
                 Log::info('single route');
+            }
+            if ($key === $event->getUserId() . "_" . $event->getRoute() && $value > 12) {
+                Log::info('single2 route');
             }
         }
     }

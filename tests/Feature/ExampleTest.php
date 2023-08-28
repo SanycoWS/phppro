@@ -12,7 +12,7 @@ class ExampleTest extends TestCase
      */
     public function test_the_application_returns_a_successful_response(): void
     {
-        $response = $this->get('/api/book');
+        $response = $this->get('/api/bookIterator?lastId=1');
 
         $response->assertStatus(200);
     }
