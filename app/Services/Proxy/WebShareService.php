@@ -13,7 +13,11 @@ class WebShareService
     ) {
     }
 
-    public function getProxyList()
+    /**
+     * @return void
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public function getProxyList(): void
     {
         $response = $this->client->get(
             'https://proxy.webshare.io/api/v2/proxy/list',

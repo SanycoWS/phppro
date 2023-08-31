@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redis;
 
 class RedisSubscribe extends Command
@@ -29,6 +30,7 @@ class RedisSubscribe extends Command
         Redis::subscribe(['test-channel'], function (string $message) {
             $data = json_decode($message, true);
             $this->info($data['name']);
+            Log::info($data['name'] . microtime(true));
             $this->info(microtime(true));
         });
 

@@ -26,6 +26,27 @@ class BookRepository
             ]);
     }
 
+    public function existByYear(int $year): bool
+    {
+        return DB::table('books')
+            ->where('year', '=', $year)
+            ->exists();
+    }
+
+    public function find(int $year)
+    {
+        return Book::query()
+            ->where('year', '=', $year)
+            ->findOrFail(99999);
+    }
+
+    public function existByName(string $name): bool
+    {
+        return DB::table('books')
+            ->where('name', '=', $name)
+            ->exists();
+    }
+
     public function update(BookUpdateDTO $data)
     {
     }

@@ -3,10 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Lang;
+use App\Exceptions\BookStoreElseException;
+use App\Exceptions\BookStoreException;
 use App\Http\Requests\Book\BookIndexRequest;
 use App\Http\Requests\Book\BookStoreRequest;
 use App\Http\Resources\BookModelResource;
 use App\Http\Resources\BookResource;
+use App\Http\Resources\ErrorResource;
 use App\Models\Book;
 use App\Repositories\Books\BookStoreDTO;
 use App\Repositories\Books\Iterators\BookIterator;
@@ -61,6 +64,7 @@ class BookController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * @throws BookStoreException
      */
     public function store(
         BookStoreRequest $request,
@@ -73,9 +77,16 @@ class BookController extends Controller
             Lang::from($validatedData['lang']),
             now()
         );
-        $bookIterator = $bookStoreService->handle($dto);
 
-        return new BookResource($bookIterator);
+        try {
+            $bookIterator = $bookStoreService->handle($dto);
+
+            return new BookResource($bookIterator);
+        } catch (BookStoreException $bookStoreException) {
+            return response(new ErrorResource($bookStoreException))->setStatusCode(422);
+        } catch (BookStoreElseException $bookStoreElseException) {
+            return response(new ErrorResource($bookStoreElseException))->setStatusCode(422);
+        }
     }
 
     /**

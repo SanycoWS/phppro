@@ -10,13 +10,18 @@
     "require": {
         "php": "^8.1",
         "guzzlehttp/guzzle": "^7.7",
+        "http-interop/http-factory-guzzle": "^1.2.0",
         "laravel/framework": "^10.10",
         "laravel/passport": "^11.8",
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
+        "php-http/message": "^1.16",
+        "php-http/message-factory": "^1.1",
         "predis/predis": "^2.2",
         "sanycows/example-package": "^0.0.2",
-        "sanycows/payments-api": "^0.0.5"
+        "sanycows/payments-api": "^0.0.5",
+        "supervisorphp/configuration": "^0.3.0",
+        "supervisorphp/supervisor": "^5.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",
