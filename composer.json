@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
+        "bschmitt/laravel-amqp": "^2.1",
         "guzzlehttp/guzzle": "^7.7",
         "http-interop/http-factory-guzzle": "^1.2.0",
         "laravel/framework": "^10.10",
