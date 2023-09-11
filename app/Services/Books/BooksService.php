@@ -61,7 +61,7 @@ class BooksService
         return $data;
     }
 
-    public function getAllDataModel(int $lastId): Collection
+    public function getAllDataModel(int $lastId, int|float $limit = 100): Collection
     {
         $data = $this->bookRepository->getAllDataModel($lastId);
 

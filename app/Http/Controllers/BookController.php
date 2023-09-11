@@ -44,7 +44,10 @@ class BookController extends Controller
     public function indexModel(
         BookIndexRequest $request
     ) {
-        $data = $this->booksService->getAllDataModel($request->get('lastId'));
+        $data = $this->booksService->getAllDataModel(
+            lastId: $request->get('lastId'),
+            limit: 5,
+        );
         /** @var Book $lastElement */
         $lastElement = $data->last();
 

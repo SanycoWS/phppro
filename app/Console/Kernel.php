@@ -13,7 +13,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule): void
     {
-        $schedule->command(ExampleCommand::class)->everyMinute();
+        $schedule->command(ExampleCommand::class)->everyMinute()
+            ->runInBackground()
+            ->withoutOverlapping();
         // $schedule->command('inspire')->hourly();
     }
 
