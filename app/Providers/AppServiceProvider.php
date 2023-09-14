@@ -6,6 +6,7 @@ use App\Services\Books\BookStoreService;
 use App\Services\Messenger\MessengerInterface;
 use App\Services\Messenger\TelegramMessenger\TelegramMessengerService;
 use App\Services\Payments\Factory\Stripe\StripeService;
+use App\Services\Singeltone\SaveDataStorage;
 use Illuminate\Support\ServiceProvider;
 use Stripe\StripeClient;
 
@@ -35,5 +36,12 @@ class AppServiceProvider extends ServiceProvider
             ->give(function () {
                 return new StripeClient(config('stripe.api_keys.secret_key'));
             });
+
+        $this->app->singleton(
+            SaveDataStorage::class,
+            function () {
+                return new SaveDataStorage();
+            }
+        );
     }
 }

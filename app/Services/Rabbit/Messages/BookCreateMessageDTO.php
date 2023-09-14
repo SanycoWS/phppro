@@ -2,17 +2,19 @@
 
 namespace App\Services\Rabbit\Messages;
 
-class CategoryCreateMessageDTO extends BaseMessage
-{
-    protected string $name;
-    protected int $createdAt;
-    protected int $updatedAt;
+use App\Enums\Lang;
 
-    public function __construct(object $data)
+class BookCreateMessageDTO extends BaseMessage
+{
+
+    protected string $name;
+    protected Lang $lang;
+    protected int $createdAt;
+    protected int $updatedAt = 5;
+
+    public function getLang(): Lang
     {
-        $this->name = $data->name;
-        $this->createdAt = $data->createdAt;
-        $this->updatedAt = $data->updatedAt;
+        return $this->lang;
     }
 
     public function getName(): string

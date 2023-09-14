@@ -2,8 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Enums\Lang;
+use App\Services\Rabbit\Messages\BookCreateMessageDTO;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 
 class ExampleCommand extends Command
 {
@@ -26,6 +27,21 @@ class ExampleCommand extends Command
      */
     public function handle()
     {
-        Log::info(time());
+        $message = new BookCreateMessageDTO(
+            (object)[
+                'name' => 'cat name',
+                'lang' => Lang::UA->value,
+                'createdAt' => time(),
+                //   'updatedAt' => time(),
+            ]
+        );
+        $encoded = json_encode($message);
+        $this->info($encoded);
+
+        // in other place
+        $object = json_decode($encoded);
+        $newMessage = new BookCreateMessageDTO($object);
+
+        var_dump($newMessage);
     }
 }
