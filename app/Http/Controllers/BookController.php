@@ -12,7 +12,7 @@ use App\Http\Resources\BookResource;
 use App\Http\Resources\ErrorResource;
 use App\Models\Book;
 use App\Repositories\Books\BookStoreDTO;
-use App\Repositories\Books\Iterators\BookIterator;
+use App\Repositories\Books\BookUpdateDTO;
 use App\Services\Books\BooksService;
 use App\Services\Books\BookStoreService;
 use Illuminate\Http\Request;
@@ -32,13 +32,8 @@ class BookController extends Controller
         BookIndexRequest $request
     ) {
         $data = $this->booksService->getAllData($request->get('lastId'));
-        /** @var BookIterator $lastElement */
-        $lastElement = $data->last();
 
-        return BookResource::collection($data)
-            ->additional([
-                'lastId' => $lastElement->getId()
-            ]);
+        return BookResource::collection($data);
     }
 
     public function indexModel(
@@ -105,6 +100,7 @@ class BookController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $this->booksService->update(new BookUpdateDTO(...$request->all()));
     }
 
     /**

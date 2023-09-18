@@ -1,5 +1,6 @@
 FROM php:8.2.3-fpm-alpine3.17
 
+ARG ENVIRONMENT
 ARG GROUP_ID
 ARG USER_ID
 ARG COMPOSER_VERSION=2.4.1
@@ -35,6 +36,11 @@ RUN docker-php-ext-install pdo_pgsql
 RUN docker-php-ext-install pcntl
 RUN docker-php-ext-install zip
 RUN docker-php-ext-install bcmath
+
+# Умова для інсталяції xdebug в залежності від змінної ENVIRONMENT
+RUN if [ "$ENVIRONMENT" = "local" ]; then \
+      pecl install xdebug && docker-php-ext-enable xdebug; \
+    fi
 
 # Перевіряємо наявність групи www-data перед створенням
 RUN if ! getent group www-data >/dev/null; then \

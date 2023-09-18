@@ -4,11 +4,11 @@ namespace App\Services\Books;
 
 use App\Repositories\Books\BookRepository;
 use App\Repositories\Books\BookStoreDTO;
+use App\Repositories\Books\BookUpdateDTO;
 use App\Repositories\Books\Iterators\BookIterator;
 use App\Repositories\Books\Iterators\BooksIterator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Redis;
 
 class BooksService
 {
@@ -27,9 +27,9 @@ class BooksService
         return $book;
     }
 
-    public function update()
+    public function update(BookUpdateDTO $bookUpdateDTO)
     {
-        $this->bookRepository->update();
+        $this->bookRepository->update($bookUpdateDTO);
     }
 
     public function delete(): void
@@ -39,9 +39,6 @@ class BooksService
 
     public function getAllDataIterator(int $lastId): BooksIterator
     {
-        Redis::set('my_new_key_lastId', $lastId, 'EX', 60);
-        Redis::get('my_new_key_lastId');
-
         return $this->bookRepository->getAllDataIterator($lastId);
     }
 

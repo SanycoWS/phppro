@@ -1,0 +1,10 @@
+### Send PUT request with json body
+PUT http://192.168.56.56:85/api/book/1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "year": 2,
+    "name": "php pro2",
+    "id": 1
+}

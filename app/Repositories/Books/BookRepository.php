@@ -47,8 +47,14 @@ class BookRepository
             ->exists();
     }
 
-    public function update(BookUpdateDTO $data)
+    public function update(BookUpdateDTO $dto): void
     {
+        DB::table('books')
+            ->where('id', '=', $dto->getId())
+            ->update([
+                'name' => $dto->getName(),
+                'year' => $dto->getYear(),
+            ]);
     }
 
     public function delete(int $id): int
@@ -146,7 +152,7 @@ class BookRepository
             ])
             ->join('categories', 'categories.id', '=', 'books.category_id')
             ->orderBy('books.id')
-            ->limit(20)
+            ->limit(2)
             ->where('books.id', '>', $lastId)
             ->get();
 

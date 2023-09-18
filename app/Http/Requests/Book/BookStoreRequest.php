@@ -17,7 +17,7 @@ class BookStoreRequest extends FormRequest
         return [
             'name' => ['required'],
             'lang' => ['required'],
-            'year' => ['required', 'integer', 'max:255'],
+            'year' => ['required', 'integer', 'max:9999'],
         ];
     }
 

@@ -17,7 +17,7 @@ Accept: application/json
 Cookie: XDEBUG_SESSION=PHPSTORM
 
 {
-    "lastId": 1
+    "lastId": 0
 }
 
 
