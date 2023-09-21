@@ -7,6 +7,7 @@ use App\Exceptions\BookStoreElseException;
 use App\Exceptions\BookStoreException;
 use App\Http\Requests\Book\BookIndexRequest;
 use App\Http\Requests\Book\BookStoreRequest;
+use App\Http\Requests\Book\BookUpdateRequest;
 use App\Http\Resources\BookModelResource;
 use App\Http\Resources\BookResource;
 use App\Http\Resources\ErrorResource;
@@ -15,7 +16,6 @@ use App\Repositories\Books\BookStoreDTO;
 use App\Repositories\Books\BookUpdateDTO;
 use App\Services\Books\BooksService;
 use App\Services\Books\BookStoreService;
-use Illuminate\Http\Request;
 
 class BookController extends Controller
 {
@@ -75,7 +75,6 @@ class BookController extends Controller
             Lang::from($validatedData['lang']),
             now()
         );
-
         try {
             $bookIterator = $bookStoreService->handle($dto);
 
@@ -98,9 +97,11 @@ class BookController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(BookUpdateRequest $request, string $id)
     {
-        $this->booksService->update(new BookUpdateDTO(...$request->all()));
+        $this->booksService->update(new BookUpdateDTO(...$request->validated()));
+
+        return new BookResource($this->booksService->getById($id));
     }
 
     /**

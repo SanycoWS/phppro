@@ -27,6 +27,11 @@ class BooksService
         return $book;
     }
 
+    public function getById(int $id): BookIterator
+    {
+        return $this->bookRepository->getById($id);
+    }
+
     public function update(BookUpdateDTO $bookUpdateDTO)
     {
         $this->bookRepository->update($bookUpdateDTO);
