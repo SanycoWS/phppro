@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\Payment\PaymentConfirmRequest;
 use App\Services\Payments\ConfirmPayment\ConfirmPaymentService;
+use OpenApi\Attributes as OA;
 use Sanycows\PaymentsApi\Enums\Currency;
 use Sanycows\PaymentsApi\Enums\Payments;
 use Sanycows\PaymentsApi\Payments\DTO\MakePaymentDTO;
@@ -17,6 +18,29 @@ class PaymentController extends Controller
     ) {
     }
 
+    #[OA\Get(
+        path: '/createPayment',
+        tags: ['payment'],
+        parameters: [
+            new OA\Parameter(
+                name: 'system',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(
+                    description: 'Access token',
+                    type: 'int',
+                )
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'show all books',
+                content: null
+            ),
+
+        ]
+    )]
     public function createPayment(int $system)
     {
         $paymentService = $this->paymentFactory->getInstance(

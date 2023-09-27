@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::get('swagger', function () {
+    return response()->file(public_path() . 'swagger.json');
+});
 
 Route::get('bookIterator', [BookController::class, 'indexIterator'])->middleware();
 Route::get('bookModel', [BookController::class, 'indexModel']);

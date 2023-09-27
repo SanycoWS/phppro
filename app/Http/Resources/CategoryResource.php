@@ -6,6 +6,14 @@ use App\Repositories\Categories\Iterators\CategoryIterator;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @OA\Schema(
+ *   schema="Category",
+ *   description="The Category",
+ *     @OA\Property(property="id", type="integer"),
+ *     @OA\Property(property="name", type="string"),
+ * )
+ */
 class CategoryResource extends JsonResource
 {
     /**

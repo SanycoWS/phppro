@@ -15,7 +15,7 @@ class BookIndexRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'lastId' => ['required', 'integer'],
+            'lastId' => ['required', 'integer', 'min:0'],
         ];
     }
 

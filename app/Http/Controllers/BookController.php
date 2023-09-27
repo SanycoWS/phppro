@@ -16,6 +16,7 @@ use App\Repositories\Books\BookStoreDTO;
 use App\Repositories\Books\BookUpdateDTO;
 use App\Services\Books\BooksService;
 use App\Services\Books\BookStoreService;
+use OpenApi\Attributes as OA;
 
 class BookController extends Controller
 {
@@ -29,7 +30,7 @@ class BookController extends Controller
      * Display a listing of the resource.
      */
     public function index(
-        BookIndexRequest $request
+        BookIndexRequest $request,
     ) {
         $data = $this->booksService->getAllData($request->get('lastId'));
 
@@ -52,6 +53,29 @@ class BookController extends Controller
             ]);
     }
 
+    #[OA\Get(
+        path: '/bookIterator',
+        tags: ['books'],
+        parameters: [
+            new OA\Parameter(
+                name: 'lastId',
+                in: 'query',
+                required: true
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'show all books',
+                content: new OA\JsonContent(ref: '#/components/schemas/Book')
+            ),
+            new OA\Response(
+                response: 422,
+                description: 'Validation errors',
+                content: new OA\JsonContent(ref: '#/components/schemas/Errors')
+            )
+        ]
+    )]
     public function indexIterator(
         BookIndexRequest $request
     ) {
@@ -60,6 +84,59 @@ class BookController extends Controller
         return BookResource::collection($data->getIterator()->getArrayCopy());
     }
 
+    #[OA\Post(
+        path: '/books',
+        tags: ['books'],
+        parameters: [
+            new OA\Parameter(
+                name: 'Authorization',
+                in: 'header',
+                required: true,
+                schema: new OA\Schema(
+                    description: 'Access token',
+                    type: 'string',
+                )
+            ),
+            new OA\Parameter(
+                name: 'name',
+                in: 'query',
+                required: true,
+                schema: new OA\Schema(
+                    description: 'Rule unique for each user',
+                    type: 'string',
+                    maxLength: 20
+                )
+            ),
+            new OA\Parameter(
+                name: 'lang',
+                in: 'query',
+                required: true,
+                schema: new OA\Schema(
+                    enum: Lang::class
+                )
+            ),
+            new OA\Parameter(
+                name: 'year',
+                in: 'query',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'integer',
+                )
+            ),
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'show created book',
+                content: new OA\JsonContent(ref: '#/components/schemas/Book')
+            ),
+            new OA\Response(
+                response: 422,
+                description: 'Validation errors',
+                content: new OA\JsonContent(ref: '#/components/schemas/Errors')
+            )
+        ]
+    )]
     /**
      * Store a newly created resource in storage.
      * @throws BookStoreException
@@ -104,6 +181,36 @@ class BookController extends Controller
         return new BookResource($this->booksService->getById($id));
     }
 
+    #[OA\Delete(
+        path: '/books',
+        tags: ['books'],
+        parameters: [
+            new OA\Parameter(
+                name: 'Authorization',
+                in: 'header',
+                required: true,
+                schema: new OA\Schema(
+                    description: 'Access token',
+                    type: 'string',
+                )
+            ),
+            new OA\Parameter(
+                name: 'id',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'integer',
+                )
+            ),
+        ],
+        responses: [
+            new OA\Response(
+                response: 204,
+                description: 'deleted book',
+                content: null
+            ),
+        ]
+    )]
     /**
      * Remove the specified resource from storage.
      */

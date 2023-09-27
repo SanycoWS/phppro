@@ -22,7 +22,8 @@
         "sanycows/example-package": "^0.0.2",
         "sanycows/payments-api": "^0.0.5",
         "supervisorphp/configuration": "^0.3.0",
-        "supervisorphp/supervisor": "^5.1"
+        "supervisorphp/supervisor": "^5.1",
+        "zircote/swagger-php": "^4.7"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8",
