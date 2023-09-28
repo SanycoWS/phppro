@@ -23,6 +23,7 @@
         "sanycows/payments-api": "^0.0.5",
         "supervisorphp/configuration": "^0.3.0",
         "supervisorphp/supervisor": "^5.1",
+      "telegram-bot/api": "^2.5",
         "zircote/swagger-php": "^4.7"
     },
     "require-dev": {

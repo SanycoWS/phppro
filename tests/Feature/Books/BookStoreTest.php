@@ -49,7 +49,7 @@ class BookStoreTest extends TestCase
     public function testFailedCreate(array $data, string $errorMessage, string $field): void
     {
         $response = $this->postJson('/api/book', $data);
-
+        $content = $response->getContent();
         $response->assertStatus(422)
             ->assertJson(fn(AssertableJson $json) => $json
                 ->where('errors.' . $field . '.0', $errorMessage)
@@ -72,16 +72,18 @@ class BookStoreTest extends TestCase
                     'lang' => '1',
                     'year' => 1,
                 ],
-                'The name field must not be greater than 20 characters.',
-                'name'
+                [
+                    'name' => 'The name field must not be greater than 20 characters.',
+                ]
             ],
             'name is required' => [
                 [
-                    'lang' => 'ua',
-                    'year' => 1234,
                 ],
-                'The name field is required.',
-                'name'
+                [
+                    'name' => 'The name field is required.',
+                    'year' => 'The year field is required.',
+                    'lang' => 'The lang field is required.',
+                ]
             ],
             'lang is required' => [
                 [

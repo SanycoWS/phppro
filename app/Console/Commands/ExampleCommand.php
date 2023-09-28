@@ -2,8 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Enums\Lang;
-use App\Services\Rabbit\Messages\BookCreateMessageDTO;
+use App\Enums\Messenger;
+use App\Services\Messenger\MessengerFactory;
 use Illuminate\Console\Command;
 
 class ExampleCommand extends Command
@@ -25,23 +25,29 @@ class ExampleCommand extends Command
     /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(MessengerFactory $service)
     {
-        $message = new BookCreateMessageDTO(
-            (object)[
-                'name' => 'cat name',
-                'lang' => Lang::UA->value,
-                'createdAt' => time(),
-                //   'updatedAt' => time(),
-            ]
-        );
-        $encoded = json_encode($message);
-        $this->info($encoded);
+        foreach (Messenger::cases() as $messenger) {
+            $service->handle($messenger)->send('text from ' . $messenger->name);
+        }
 
-        // in other place
-        $object = json_decode($encoded);
-        $newMessage = new BookCreateMessageDTO($object);
+        return;
 
-        var_dump($newMessage);
+//        $message = new BookCreateMessageDTO(
+//            (object)[
+//                'name' => 'cat name',
+//                'lang' => Lang::UA->value,
+//                'createdAt' => time(),
+//                //   'updatedAt' => time(),
+//            ]
+//        );
+//        $encoded = json_encode($message);
+//        $this->info($encoded);
+//
+//        // in other place
+//        $object = json_decode($encoded);
+//        $newMessage = new BookCreateMessageDTO($object);
+//
+//        var_dump($newMessage);
     }
 }

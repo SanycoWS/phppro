@@ -1,0 +1,7 @@
+POST https://api.telegram.org/bot6512307979:AAFgTUqFc4CbIj3uj4nDroleblcvB7yzwQ0/sendMessage
+Content-type: application/json
+
+{
+  "chat_id": -4046146573,
+  "text": "Hello, world."
+}
