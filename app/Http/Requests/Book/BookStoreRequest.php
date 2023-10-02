@@ -17,9 +17,9 @@ class BookStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'string', 'max:20'],
+            'name' => ['required', 'bail', 'string', 'max:20', 'min:5'],
             'lang' => ['required', Rule::enum(Lang::class)],
-            'year' => ['required', 'integer', 'max:9999', 'min:1999'],
+            'year' => ['sometimes', 'numeric', 'integer', 'between:1970,' . date('Y')],
         ];
     }
 

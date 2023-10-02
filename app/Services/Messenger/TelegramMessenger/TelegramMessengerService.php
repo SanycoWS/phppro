@@ -5,8 +5,8 @@ namespace App\Services\Messenger\TelegramMessenger;
 use App\Services\Messenger\MessengerInterface;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use TelegramBot\Api\Exception;
-use TelegramBot\Api\InvalidArgumentException;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class TelegramMessengerService implements MessengerInterface
 {
@@ -17,25 +17,43 @@ class TelegramMessengerService implements MessengerInterface
     }
 
     /**
+     * @param string $message
+     * @param int|null $chatId
+     * @return bool
      * @throws GuzzleException
-     * @throws Exception
-     * @throws InvalidArgumentException
-     * @throws \Exception
      */
-    public function send(string $message): bool
+    public function send(string $message, int $chatId = null): bool
     {
-        $bot = new \TelegramBot\Api\BotApi(config('message.telegram.token'));
-
-        //$bot->sendMessage(config('message.telegram.chat_id'), 'Hello World from package');
-        $bot->sendMessage(514530769, 'Hello World from package');
-
+        if (is_null($chatId)) {
+            $chatId = config('message.telegram.chat_id');
+        }
         $this->client->post(config('message.telegram.url'), [
             'json' => [
-                'chat_id' => config('message.telegram.chat_id'),
+                'chat_id' => $chatId,
                 'text' => $message,
             ]
         ]);
 
         return true;
+    }
+
+    public function sendFile(string $pathToFile, int $chatId = null)
+    {
+        if (is_null($chatId)) {
+            $chatId = config('message.telegram.chat_id');
+        }
+        Log::info($pathToFile);
+        $this->client->post('https://api.telegram.org/bot' . config('message.telegram.token') . '/sendDocument', [
+            'query' => [
+                'chat_id' => $chatId,
+            ],
+            'multipart' => [
+                [
+                    'name' => 'document',
+                    'contents' => Storage::get($pathToFile),
+                    'filename' => 'filename.log',
+                ]
+            ]
+        ]);
     }
 }

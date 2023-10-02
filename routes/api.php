@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\BookController;
+use App\Http\Controllers\FileDownloadController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\TelegramController;
 use App\Http\Controllers\Users\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +20,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('swagger', function () {
     return response()->file(public_path() . 'swagger.json');
 });
+
+Route::get('download/{file}', [FileDownloadController::class, 'index']);
+Route::post('telegram', [TelegramController::class, 'index']);
 
 Route::get('bookIterator', [BookController::class, 'indexIterator'])->middleware();
 Route::get('bookModel', [BookController::class, 'indexModel']);
