@@ -14,7 +14,7 @@ class BookStoreTest extends TestCase
         $data = [
             'name' => 'testName',
             'lang' => 'ua',
-            'year' => 9999,
+            'year' => 2000,
         ];
         $response = $this->postJson('/api/book', $data);
         $response->assertStatus(200)
